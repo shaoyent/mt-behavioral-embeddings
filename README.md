@@ -22,7 +22,7 @@ spacy
 numpy
 scipy
 sklearn
-torch==0.4.0
+torch==0.4.1
 torchtext
 six
 dill

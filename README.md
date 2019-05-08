@@ -16,7 +16,7 @@ We show that embeddings generated through this process increase performance in s
 We evaluate on the affective tasks of emotion recognition and behavior analysis and compare our results with state-of-the-art general-purpose supervised sentence embeddings.
 Our unsupervised sentence embeddings outperform the alternative universal embeddings in both identifying behaviors within couples therapy and in emotion recognition.
 
-# Requirements
+## Requirements
 ``` bash
 spacy
 numpy

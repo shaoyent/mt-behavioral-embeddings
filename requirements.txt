@@ -1,0 +1,9 @@
+spacy
+numpy
+scipy
+sklearn
+torch==0.4.0
+torchtext
+six
+dill
+-e git+https://github.com/IBM/pytorch-seq2seq.git#egg=seq2seq

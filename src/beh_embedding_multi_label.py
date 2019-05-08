@@ -34,14 +34,6 @@ try:
 except NameError:
     raw_input = input  # Python 3
 
-# Sample usage:
-#     # training
-#     python examples/sample.py --train_path $TRAIN_PATH --dev_path $DEV_PATH --ckpt_dir $EXPT_PATH
-#     # resuming from the latest checkpoint of the experiment
-#      python examples/sample.py --train_path $TRAIN_PATH --dev_path $DEV_PATH --ckpt_dir $EXPT_PATH --resume
-#      # resuming from a specific checkpoint
-#      python examples/sample.py --train_path $TRAIN_PATH --dev_path $DEV_PATH --ckpt_dir $EXPT_PATH --load_checkpoint $CHECKPOINT_DIR
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--train-path', action='store', dest='train_path',
                     help='Path to train data')
@@ -110,49 +102,29 @@ if opt.load_checkpoint is not None:
                 X = []
                 with open(filepath,'r', encoding='utf-8') as fin : 
                     for line in fin : 
-                        if 'IMDB' in opt.postfix :
-                           src_seq = my_tokenizer(line.strip())
-                        else : 
-                           doc = nlp(line.strip())
-                           seq_str = " ".join([ '<name>' if t.text == 'chicaca' or t.text =='propn' else t.text for t in doc ] )
-                           src_seq = my_tokenizer(seq_str)
+                        doc = nlp(line.strip())
+                        seq_str = " ".join([ '<name>' if t.text =='propn' else t.text for t in doc ] )
+                        src_seq = my_tokenizer(seq_str)
 
-                        if len(src_seq) >= 20 and '20w' in opt.postfix : 
-                           for seq in window(src_seq, size=20, step=20, pad='<pad>') : 
-                               if len(seq) == 0 :
-                                   seq = "<unk>"
-                               src_id_seq = torch.autograd.Variable(torch.LongTensor([input_vocab.stoi[tok] for tok in seq]), volatile=True).view(1, -1)
-                               if torch.cuda.is_available():
-                                   src_id_seq = src_id_seq.cuda()
+                        if len(src_seq) == 0 :
+                            src_seq = "<unk>"
+                        src_id_seq = torch.autograd.Variable(torch.LongTensor([input_vocab.stoi[tok] for tok in src_seq]), volatile=True).view(1, -1)
+                        if torch.cuda.is_available():
+                            src_id_seq = src_id_seq.cuda()
 
-                               encoder_outputs, encoder_hidden = encoder(src_id_seq, [len(seq)])
-                               if 'HOE' in opt.postfix : 
-                                   X.append(encoder_hidden.view(1,-1).data.tolist()[0])
-                               elif 'BIE' in opt.postfix : 
-                                   X.append(encoder_hidden[-2:].view(1,-1).data.tolist()[0])
-                               else :
-                                   X.append(encoder_hidden[-2:].view(1,-1).data.tolist()[0])
-                                   # fout.write(' '.join([ str(x) for x in encoder_hidden[-1][-1].data]))
-                        else :
-                           if len(src_seq) == 0 :
-                               src_seq = "<unk>"
-                           src_id_seq = torch.autograd.Variable(torch.LongTensor([input_vocab.stoi[tok] for tok in src_seq]), volatile=True).view(1, -1)
-                           if torch.cuda.is_available():
-                               src_id_seq = src_id_seq.cuda()
-
-                           encoder_outputs, encoder_hidden = encoder(src_id_seq, [len(src_seq)])
-                           try : 
-                               if 'HOE' in opt.postfix : 
-                                   X.append(encoder_hidden.view(1,-1).data.tolist()[0])
-                               elif 'BIE' in opt.postfix : 
-                                   X.append(encoder_hidden[-2:].view(1,-1).data.tolist()[0])
-                               else :
-                                   X.append(encoder_hidden[-2:].view(1,-1).data.tolist()[0])
-                                   # fout.write(' '.join([ str(x) for x in encoder_hidden[-1][-1].data]))
-                           except : 
-                               print('***ERROR embedding_output')
-                               import ipdb
-                               ipdb.set_trace()
+                        encoder_outputs, encoder_hidden = encoder(src_id_seq, [len(src_seq)])
+                        try : 
+                            if 'HOE' in opt.postfix : 
+                                X.append(encoder_hidden.view(1,-1).data.tolist()[0])
+                            elif 'BIE' in opt.postfix : 
+                                X.append(encoder_hidden[-2:].view(1,-1).data.tolist()[0])
+                            else :
+                                X.append(encoder_hidden[-2:].view(1,-1).data.tolist()[0])
+                                # fout.write(' '.join([ str(x) for x in encoder_hidden[-1][-1].data]))
+                        except : 
+                            print('***ERROR embedding_output')
+                            import ipdb
+                            ipdb.set_trace()
 
                 if opt.numpy :
                     with open( os.path.join(embedding_path, filename.replace('.txt','.npy')), 'wb') as fout :

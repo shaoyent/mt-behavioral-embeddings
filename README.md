@@ -42,6 +42,11 @@ cd run/
 ./download_checkpoints.sh
 ```
 
+### Download spaCy English module
+``` bash
+python -m spacy download en
+```
+
 ### Extract embeddings
 ``` bash
 cd run/
@@ -49,6 +54,13 @@ cd run/
 ```
 where `TEXTLIST` is a file with paths to text files. 
 
+### Arguments
+``` bash
+python beh_embedding_multi_label.py
+  --extract-list EXTRACT_LIST 	List of files to extract sentence embeddings from.
+  --out-dir OUT_DIR     			Path to save embeddings
+  --numpy               			Save embeddings as numpy array.
+```
 
 
 

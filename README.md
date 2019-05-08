@@ -1,6 +1,8 @@
 # Behavioral Sentence Embeddings using Unsupervised Online Multitask Learning
-This repo contains the code to extract embeddings from the paper
+This repo contains the code to extract embeddings from our work
+
 [Unsupervised Online Multitask Learning of Behavioral Sentence Embeddings](https://arxiv.org/pdf/1807.06792.pdf)
+
 _Shao-Yeng Tseng, Brian Baucom, and Panayiotis Georgiou_
 
 ## Abstract 
@@ -20,14 +22,27 @@ performance in subsequent domain-relevant tasks. We target affective tasks such
 asemotion recognition and behavior analysis and compare our results with
 state-of-the-art general-purposesupervised sentence embeddings.
 
+# Requirements
+``` bash
+spacy
+numpy
+scipy
+sklearn
+torch==0.4.0
+torchtext
+six
+dill
+https://github.com/IBM/pytorch-seq2seq.git
+```
+
 ## Usage
-###Download checkpoint
+### Download checkpoint
 ``` bash
 cd run/
 ./download_checkpoints.sh
 ```
 
-###Extract embeddings
+### Extract embeddings
 ``` bash
 cd run/
 ./extact_embeddings.sh TEXTLIST

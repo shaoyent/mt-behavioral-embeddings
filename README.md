@@ -1,7 +1,7 @@
 # Behavioral Sentence Embeddings using Unsupervised Online Multitask Learning
 This repo contains the code to extract embeddings from our work
 
-[Unsupervised Online Multitask Learning of Behavioral Sentence Embeddings](https://arxiv.org/pdf/1807.06792.pdf)
+[Unsupervised Online Multitask Learning of Behavioral Sentence Embeddings](https://peerj.com/articles/cs-200.pdf)
 
 _Shao-Yeng Tseng, Brian Baucom, and Panayiotis Georgiou_
 

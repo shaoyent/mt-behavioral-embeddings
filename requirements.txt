@@ -3,7 +3,7 @@ numpy
 scipy
 sklearn
 torch==0.4.1
-torchtext
+torchtext==0.3.1
 six
 dill
 -e git+https://github.com/IBM/pytorch-seq2seq.git#egg=seq2seq
